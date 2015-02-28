@@ -18,5 +18,9 @@ echo -e "FROM $IMAGE\nADD qemu-arm-static /usr/bin/qemu-arm-static\n" >Dockerfil
 docker build -t $IMAGE -f Dockerfile.qemu .
 rm Dockerfile.qemu
 
-# Push image
-docker push $IMAGE
+# Test image
+docker run --rm $IMAGE apt-get check -qq
+if [ $? -eq 0 ]; then
+  # Push image
+  docker push $IMAGE
+fi
