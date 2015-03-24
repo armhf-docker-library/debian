@@ -1,0 +1,6 @@
+*.swp
+/.add-qemu.*
+/.bootstrap.*
+/.push.*
+/.tags.*
+/mkimage*
