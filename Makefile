@@ -19,6 +19,9 @@ tags: .tags.$(DIST)
 
 push: .push.$(DIST)
 
+update: build update.sh
+	sudo ./update.sh $(IMAGE):$(DIST)
+
 mkimage.sh:
 	# Get current mkimage script
 	mkdir -p mkimage
@@ -42,4 +45,4 @@ bootstrap: .bootstrap.$(DIST)
 
 add-qemu: .add-qemu.$(DIST)
 
-.PHONY: default build bootstrap add-qemu tags push
+.PHONY: default build update bootstrap add-qemu tags push
