@@ -2,6 +2,7 @@ IMAGE = debian
 REPOSITORY_IMAGE = armhfbuild/debian
 DIST = wheezy
 LATEST = wheezy
+ARCH = armhf
 
 default: build tags
 
@@ -32,7 +33,7 @@ mkimage.sh:
 
 .bootstrap.$(DIST): mkimage.sh
 	# Bootstrap OS
-	PATH=/bin:/sbin:$PATH sudo ./mkimage.sh -t $(IMAGE):$(DIST) debootstrap --arch=armhf $(DIST)
+	PATH=/bin:/sbin:$PATH sudo ./mkimage.sh -t $(IMAGE):$(DIST) debootstrap --arch=$(ARCH) $(DIST)
 	@touch $@
 
 bootstrap: .bootstrap.$(DIST)
