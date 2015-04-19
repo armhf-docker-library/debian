@@ -1,6 +1,7 @@
 IMAGE = debian
 REPOSITORY_IMAGE = armhfbuild/debian
 DIST = wheezy
+LATEST = wheezy
 
 default: build tags
 
@@ -8,7 +9,7 @@ build: bootstrap add-qemu
 
 .tags.$(DIST): build
 	sudo docker tag -f $(IMAGE):$(DIST) $(REPOSITORY_IMAGE):$(DIST)
-	if [ $(DIST) = 'wheezy' ]; then sudo docker tag -f $(IMAGE):$(DIST) $(REPOSITORY_IMAGE):latest; fi
+	if [ $(DIST) = $(LATEST) ]; then sudo docker tag -f $(IMAGE):$(DIST) $(REPOSITORY_IMAGE):latest; fi
 	@touch $@
 
 tags: .tags.$(DIST)
