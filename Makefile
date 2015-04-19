@@ -32,7 +32,7 @@ mkimage.sh:
 
 .bootstrap.$(DIST): mkimage.sh
 	# Bootstrap OS
-	PATH=/bin:/sbin:$PATH sudo /tmp/mkimage/mkimage.sh -t $(IMAGE):$(DIST) debootstrap --arch=armhf $(DIST)
+	PATH=/bin:/sbin:$PATH sudo ./mkimage.sh -t $(IMAGE):$(DIST) debootstrap --arch=armhf $(DIST)
 	@touch $@
 
 bootstrap: .bootstrap.$(DIST)
