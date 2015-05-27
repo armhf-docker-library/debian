@@ -10,11 +10,11 @@ By default, Debian Wheezy will be built.
 
 Build, tag and push Ubuntu Trusty, tag as latest:
 
-    make build tags push IMAGE=ubuntu REPOSITORY_IMAGE=armhfbuild/ubuntu DIST=trusty LATEST=trusty
+    make build tags push IMAGE=ubuntu REPOSITORY_IMAGE=armhfbuild/ubuntu DIST=trusty LATEST=trusty ADDITIONAL_TAGS="14.04 14.04.2"
 
 Update and push the updated version:
 
-    make update IMAGE=ubuntu REPOSITORY_IMAGE=armhfbuild/ubuntu DIST=trusty LATEST=trusty
+    make update IMAGE=ubuntu REPOSITORY_IMAGE=armhfbuild/ubuntu DIST=trusty LATEST=trusty ADDITIONAL_TAGS="14.04 14.04.2"
 
 ## Makefile variables
 
@@ -23,6 +23,7 @@ The following variables can be adjusted. The defaults are shown:
     IMAGE = debian
     REPOSITORY_IMAGE = armhfbuild/debian
     DIST = wheezy
+    ADDITIONAL_TAGS=7 7.8
     LATEST = wheezy
     ARCH = armhf
 
@@ -40,12 +41,14 @@ Creates suitable Docker tags for the built image.
 
 * Result: creates image `$REPOSITORY_IMAGE:$DIST` (e.g. `armhfbuild/debian:wheezy`)
 * Result: if latest, creates `$IMAGE:latest` and `$REPOSITORY_IMAGE:latest` (e.g. `debian:latest` and `armhfbuild/debian:latest`)
+* Result: creates `$IMAGE:$tag` and `$REPOSITORY_IMAGE:$tag` for each tag defined in `ADDITIONAL_TAGS` (e.g. `debian:8` and `armhfbuild/debian:8`)
 
 ### push
 
 Pushes the current images to the Docker Registry.
 
 * Result: pushes `$REPOSITORY_IMAGE:$DIST` and `$REPOSITORY_IMAGE:latest` (e.g. `armhfbuild/debian:wheezy` and `armhfbuild/debian:latest`)
+* Result: pushes `$REPOSITORY_IMAGE:$tag` for each tag defined in `ADDITIONAL_TAGS`  (e.g. `armhfbuild/debian:8`)
 
 ### update
 

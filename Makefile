@@ -1,6 +1,7 @@
 IMAGE = debian
 REPOSITORY_IMAGE = armhfbuild/debian
 DIST = wheezy
+ADDITIONAL_TAGS=7 7.8
 LATEST = wheezy
 ARCH = armhf
 DEBOOTSTRAP_ARGS ?= $(DIST)
@@ -15,6 +16,10 @@ build: bootstrap add-qemu
 		sudo docker tag -f $(IMAGE):$(DIST) $(IMAGE):latest; \
 		sudo docker tag -f $(IMAGE):$(DIST) $(REPOSITORY_IMAGE):latest; \
 	fi
+	for tag in $(ADDITIONAL_TAGS); do \
+		sudo docker tag -f $(IMAGE):$(DIST) $(IMAGE):$$tag; \
+		sudo docker tag -f $(IMAGE):$(DIST) $(REPOSITORY_IMAGE):$$tag; \
+	done
 	@touch $@
 
 tags: .tags.$(ARCH).$(DIST)
@@ -22,6 +27,9 @@ tags: .tags.$(ARCH).$(DIST)
 .push.$(ARCH).$(DIST): .tags.$(ARCH).$(DIST)
 	sudo docker push $(REPOSITORY_IMAGE):$(DIST)
 	if [ $(DIST) = $(LATEST) ]; then sudo docker push $(REPOSITORY_IMAGE):latest; fi
+	for tag in $(ADDITIONAL_TAGS); do \
+		sudo docker push $(REPOSITORY_IMAGE):$$tag; \
+	done
 	@touch $@
 
 push: .push.$(ARCH).$(DIST)
