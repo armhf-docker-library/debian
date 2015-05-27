@@ -21,6 +21,7 @@ tags: .tags.$(ARCH).$(DIST)
 
 .push.$(ARCH).$(DIST): .tags.$(ARCH).$(DIST)
 	sudo docker push $(REPOSITORY_IMAGE):$(DIST)
+	if [ $(DIST) = $(LATEST) ]; then sudo docker push $(REPOSITORY_IMAGE):latest; fi
 	@touch $@
 
 push: .push.$(ARCH).$(DIST)
