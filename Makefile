@@ -11,7 +11,10 @@ build: bootstrap add-qemu
 
 .tags.$(ARCH).$(DIST): build
 	sudo docker tag -f $(IMAGE):$(DIST) $(REPOSITORY_IMAGE):$(DIST)
-	if [ $(DIST) = $(LATEST) ]; then sudo docker tag -f $(IMAGE):$(DIST) $(REPOSITORY_IMAGE):latest; fi
+	if [ $(DIST) = $(LATEST) ]; then \
+		sudo docker tag -f $(IMAGE):$(DIST) $(IMAGE):latest; \
+		sudo docker tag -f $(IMAGE):$(DIST) $(REPOSITORY_IMAGE):latest; \
+	fi
 	@touch $@
 
 tags: .tags.$(ARCH).$(DIST)
