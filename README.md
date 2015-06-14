@@ -10,11 +10,11 @@ By default, Debian Wheezy will be built.
 
 Build, tag and push Ubuntu Trusty, tag as latest:
 
-    make build tags push IMAGE=ubuntu REPOSITORY_IMAGE=armhfbuild/ubuntu DIST=trusty LATEST=trusty ADDITIONAL_TAGS="14.04 14.04.2"
+    make build tags push IMAGE=ubuntu REPOSITORY_IMAGE=armhfbuild/ubuntu DIST=trusty LATEST=trusty ADDITIONAL_TAGS="14.04 14.04.2" DEBOOTSTRAP_ARGS="trusty http://ports.ubuntu.com/"
 
 Update and push the updated version:
 
-    make update IMAGE=ubuntu REPOSITORY_IMAGE=armhfbuild/ubuntu DIST=trusty LATEST=trusty ADDITIONAL_TAGS="14.04 14.04.2"
+    make update IMAGE=ubuntu REPOSITORY_IMAGE=armhfbuild/ubuntu DIST=trusty LATEST=trusty ADDITIONAL_TAGS="14.04 14.04.2" DEBOOTSTRAP_ARGS="trusty http://ports.ubuntu.com/"
 
 ## Makefile variables
 
