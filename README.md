@@ -23,9 +23,10 @@ The following variables can be adjusted. The defaults are shown:
     IMAGE = debian
     REPOSITORY_IMAGE = armhfbuild/debian
     DIST = wheezy
-    ADDITIONAL_TAGS=7 7.8
+    ADDITIONAL_TAGS = 7 7.8
     LATEST = wheezy
     ARCH = armhf
+    DEBOOTSTRAP_ARGS =
 
 ## Makefile targets
 
