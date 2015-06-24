@@ -46,7 +46,7 @@ mkimage.sh:
 
 .bootstrap.$(ARCH).$(DIST): mkimage.sh
 	# Bootstrap OS
-	PATH=/bin:/sbin:$PATH sudo ./mkimage.sh -t $(IMAGE):$(DIST) debootstrap --arch=$(ARCH) $(DEBOOTSTRAP_ARGS)
+	PATH=/bin:/sbin:$PATH sudo ./mkimage.sh -t $(IMAGE):$(DIST) debootstrap --arch=$(ARCH) --components=main,universe $(DEBOOTSTRAP_ARGS)
 	@touch $@
 
 bootstrap: .bootstrap.$(ARCH).$(DIST)
