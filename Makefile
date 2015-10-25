@@ -1,8 +1,8 @@
 IMAGE = debian
 REPOSITORY_IMAGE = armhfbuild/debian
-DIST = wheezy
+DIST = jessie
 ADDITIONAL_TAGS=7 7.8
-LATEST = wheezy
+LATEST = jessie
 ARCH = armhf
 DEBOOTSTRAP_ARGS ?= $(DIST)
 
