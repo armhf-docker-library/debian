@@ -10,6 +10,9 @@ default: build tags
 
 build: bootstrap add-qemu
 
+clean:
+	rm .*.$(ARCH).$(DIST)
+
 .tags.$(ARCH).$(DIST): build
 	sudo docker tag -f $(IMAGE):$(DIST) $(REPOSITORY_IMAGE):$(DIST)
 	if [ $(DIST) = $(LATEST) ]; then \
