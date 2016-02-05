@@ -45,11 +45,11 @@ mkimage.sh:
 	mkdir -p mkimage
 	curl https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage.sh >mkimage.sh
 	curl https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage/debootstrap | sed 's/chroot "$rootfsDir" bash/chroot "$rootfsDir" \/bin\/bash/' >mkimage/debootstrap
-	chmod -R u+x mkimage{,.sh}
+	chmod -R u+x mkimage mkimage.sh
 
 .bootstrap.$(ARCH).$(DIST): mkimage.sh
 	# Bootstrap OS
-	PATH=/bin:/sbin:$PATH sudo ./mkimage.sh -t $(IMAGE):$(DIST) debootstrap --arch=$(ARCH) --components=main,universe $(DEBOOTSTRAP_ARGS)
+	PATH=/bin:/sbin:$(PATH) ./mkimage.sh -t $(IMAGE):$(DIST) debootstrap --arch=$(ARCH) --components=main,universe $(DEBOOTSTRAP_ARGS)
 	@touch $@
 
 bootstrap: .bootstrap.$(ARCH).$(DIST)
@@ -57,10 +57,15 @@ bootstrap: .bootstrap.$(ARCH).$(DIST)
 .add-qemu.$(ARCH).$(DIST): .bootstrap.$(ARCH).$(DIST)
 	# Add qemu binary for emulation on x86_64
 	echo -e "FROM $(IMAGE):$(DIST)\nADD qemu-arm-static /usr/bin/qemu-arm-static\n" >Dockerfile.qemu
-	sudo docker build -t $(IMAGE):$(DIST) -f Dockerfile.qemu .
+	docker build -t $(IMAGE):$(DIST) -f Dockerfile.qemu .
 	rm Dockerfile.qemu
 	@touch $@
 
 add-qemu: .add-qemu.$(ARCH).$(DIST)
+
+$(IMAGE).$(DIST).tar: .bootstrap.$(ARCH).$(DIST)
+	CONTAINER=$$(docker create $(IMAGE):$(DIST) /bin/bash) && \
+	docker export -o $(IMAGE).$(DIST).tar $$CONTAINER && \
+	docker rm $$CONTAINER
 
 .PHONY: default build update bootstrap add-qemu tags push

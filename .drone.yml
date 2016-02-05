@@ -1,0 +1,22 @@
+matrix:
+  IMAGE:
+    - debian
+  DIST:
+    - jessie
+
+build:
+  image: armhfbuild/docker:1.9.1-dind
+  privileged: true
+  commands:
+    - docker daemon &
+    - apk add --update bash debootstrap make
+    - make $$IMAGE.$$DIST.tar
+    - mv $$IMAGE.$$DIST.tar image.tar
+
+publish:
+  docker:
+    username: $$DOCKER_USER
+    email: $$DOCKER_EMAIL
+    password: $$DOCKER_PASSWORD
+    repo: armhfbuild/$$IMAGE
+    tag: $$DIST
