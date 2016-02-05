@@ -19,4 +19,12 @@ publish:
     email: $$DOCKER_EMAIL
     password: $$DOCKER_PASSWORD
     repo: armhfbuild/$$IMAGE
-    tag: $$DIST
+    tag: 
+      - "8.3" 
+      - "8"
+      - jessie 
+      - latest
+    when:
+      matrix:
+        IMAGE: debian
+        DIST: jessie
