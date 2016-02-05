@@ -44,7 +44,7 @@ mkimage.sh:
 	# Get current mkimage script
 	mkdir -p mkimage
 	curl https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage.sh >mkimage.sh
-	curl https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage/debootstrap | sed 's/chroot "$rootfsDir" bash/chroot "$rootfsDir" \/bin\/bash/' >mkimage/debootstrap
+	curl https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage/debootstrap | sed 's/chroot "$$rootfsDir" bash/chroot "$$rootfsDir" \/bin\/bash/' >mkimage/debootstrap
 	chmod -R u+x mkimage mkimage.sh
 
 .bootstrap.$(ARCH).$(DIST): mkimage.sh
