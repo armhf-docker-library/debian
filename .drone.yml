@@ -1,7 +1,5 @@
 matrix:
   IMAGE:
-    - debian
-  DIST:
     - jessie
 
 build:
@@ -10,21 +8,21 @@ build:
   commands:
     - docker daemon &
     - apk add --update bash debootstrap make
-    - make $$IMAGE.$$DIST.tar
-    - mv $$IMAGE.$$DIST.tar image.tar
+    - make $$IMAGE.tar
 
 publish:
   docker:
     username: $$DOCKER_USER
     email: $$DOCKER_EMAIL
     password: $$DOCKER_PASSWORD
-    repo: armhfbuild/$$IMAGE
-    tag: 
-      - "8.3" 
+    repo: armhfbuild/debian
+    tag:
+      - "8.3"
       - "8"
-      - jessie 
+      - jessie
       - latest
+    build_args:
+      - IMAGE_TAR=$$IMAGE.tar
     when:
       matrix:
-        IMAGE: debian
-        DIST: jessie
+        IMAGE: jessie

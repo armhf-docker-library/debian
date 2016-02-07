@@ -63,7 +63,7 @@ bootstrap: .bootstrap.$(ARCH).$(DIST)
 
 add-qemu: .add-qemu.$(ARCH).$(DIST)
 
-$(IMAGE).$(DIST).tar: .bootstrap.$(ARCH).$(DIST)
+$(DIST).tar: .bootstrap.$(ARCH).$(DIST)
 	CONTAINER=$$(docker create $(IMAGE):$(DIST) /bin/bash) && \
 	docker export -o $(IMAGE).$(DIST).tar $$CONTAINER && \
 	docker rm $$CONTAINER
