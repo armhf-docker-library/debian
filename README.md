@@ -1,5 +1,7 @@
 # Scripts for Debian Docker base images for armhf devices
 
+[![Build Status](https://armdrone.strahlungsfrei.de/api/badges/armhf-docker-library/debian/status.svg)](https://armdrone.strahlungsfrei.de/armhf-docker-library/debian)
+
 The Makefile and scripts can be used to build Docker base images for Debian-based distributions on armhf devices.
 
 The images are tagged with (e.g. `armhfbuild/debian`) and without (e.g. `debian`) organization prefix. So you can build images which replace e.g. the official `debian` and `ubuntu` base images. That in turn allows building most images from the official Docker Registry without further changes.
