@@ -2,6 +2,8 @@ matrix:
   IMAGE:
     - jessie
     - wheezy
+    - trusty
+    - precise
 
 build:
   image: armhfbuild/docker:1.9.1-dind
@@ -44,6 +46,39 @@ publish:
     when:
       matrix:
         IMAGE: wheezy
+
+  trusty:
+    image: armhfplugins/drone-docker
+    username: $$DOCKER_USER
+    email: $$DOCKER_EMAIL
+    password: $$DOCKER_PASSWORD
+    repo: armhfbuild/ubuntu
+    tag:
+      - "14.04.3"
+      - "14.04"
+      - trusty
+      - latest
+    build_args:
+      - IMAGE_TAR=$$IMAGE.tar
+    when:
+      matrix:
+        IMAGE: trusty
+
+  precise:
+    image: armhfplugins/drone-docker
+    username: $$DOCKER_USER
+    email: $$DOCKER_EMAIL
+    password: $$DOCKER_PASSWORD
+    repo: armhfbuild/ubuntu
+    tag:
+      - "12.04.5"
+      - "12.04"
+      - precise
+    build_args:
+      - IMAGE_TAR=$$IMAGE.tar
+    when:
+      matrix:
+        IMAGE: precise
 
 notify:
   slack:
