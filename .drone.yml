@@ -11,7 +11,8 @@ build:
   commands:
     - docker daemon &
     - apk add --update bash debootstrap make
-    - make $$DIST.tar IMAGE=debootstrap DIST=$$DIST
+    - if [ "$$DIST" = "trusty" -o "$$DIST" = "precise" ]; then DEBOOTSTRAP_ARGS="$$DIST http://ports.ubuntu.com/ubuntu-ports/"; else DEBOOTSTRAP_ARGS="$$DIST"; fi
+    - make $$DIST.tar IMAGE=debootstrap DIST=$$DIST DEBOOTSTRAP_ARGS="$DEBOOTSTRAP_ARGS"
 
 publish:
   jessie:
