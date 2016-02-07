@@ -44,3 +44,8 @@ publish:
     when:
       matrix:
         IMAGE: wheezy
+
+notify:
+  slack:
+    webhook_url: $$SLACK_WEBHOOK_URL
+    channel: armhf
