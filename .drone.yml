@@ -1,0 +1,87 @@
+matrix:
+  DIST:
+    - jessie
+    - wheezy
+    - trusty
+    - precise
+
+build:
+  image: armhfbuild/docker:1.9.1-dind
+  privileged: true
+  commands:
+    - docker daemon &
+    - apk add --update bash debootstrap make
+    - if [ "$$DIST" = "trusty" -o "$$DIST" = "precise" ]; then DEBOOTSTRAP_ARGS="$$DIST http://ports.ubuntu.com/ubuntu-ports/"; else DEBOOTSTRAP_ARGS="$$DIST"; fi
+    - make $$DIST.tar IMAGE=debootstrap DIST=$$DIST DEBOOTSTRAP_ARGS="$DEBOOTSTRAP_ARGS"
+
+publish:
+  jessie:
+    image: armhfplugins/drone-docker
+    username: $$DOCKER_USER
+    email: $$DOCKER_EMAIL
+    password: $$DOCKER_PASSWORD
+    repo: armhfbuild/debian
+    tag:
+      - "8.3"
+      - "8"
+      - jessie
+      - latest
+    build_args:
+      - IMAGE=$$DIST.tar
+    when:
+      matrix:
+        DIST: jessie
+
+  wheezy:
+    image: armhfplugins/drone-docker
+    username: $$DOCKER_USER
+    email: $$DOCKER_EMAIL
+    password: $$DOCKER_PASSWORD
+    repo: armhfbuild/debian
+    tag:
+      - "7.9"
+      - "7"
+      - wheezy
+    build_args:
+      - IMAGE=$$DIST.tar
+    when:
+      matrix:
+        DIST: wheezy
+
+  trusty:
+    image: armhfplugins/drone-docker
+    username: $$DOCKER_USER
+    email: $$DOCKER_EMAIL
+    password: $$DOCKER_PASSWORD
+    repo: armhfbuild/ubuntu
+    tag:
+      - "14.04.3"
+      - "14.04"
+      - trusty
+      - latest
+    build_args:
+      - IMAGE=$$DIST.tar
+    when:
+      matrix:
+        DIST: trusty
+
+  precise:
+    image: armhfplugins/drone-docker
+    username: $$DOCKER_USER
+    email: $$DOCKER_EMAIL
+    password: $$DOCKER_PASSWORD
+    repo: armhfbuild/ubuntu
+    tag:
+      - "12.04.5"
+      - "12.04"
+      - precise
+    build_args:
+      - IMAGE=$$DIST.tar
+    when:
+      matrix:
+        DIST: precise
+
+notify:
+  slack:
+    webhook_url: $$SLACK_WEBHOOK_URL
+    channel: armhf
