@@ -1,6 +1,7 @@
 matrix:
   IMAGE:
     - jessie
+    - wheezy
 
 build:
   image: armhfbuild/docker:1.9.1-dind
@@ -11,7 +12,8 @@ build:
     - make $$IMAGE.tar
 
 publish:
-  docker:
+  jessie:
+    image: armhfplugins/drone-docker
     username: $$DOCKER_USER
     email: $$DOCKER_EMAIL
     password: $$DOCKER_PASSWORD
@@ -26,3 +28,19 @@ publish:
     when:
       matrix:
         IMAGE: jessie
+
+  wheezy:
+    image: armhfplugins/drone-docker
+    username: $$DOCKER_USER
+    email: $$DOCKER_EMAIL
+    password: $$DOCKER_PASSWORD
+    repo: armhfbuild/debian
+    tag:
+      - "7.9"
+      - "7"
+      - wheezy
+    build_args:
+      - IMAGE_TAR=$$IMAGE.tar
+    when:
+      matrix:
+        IMAGE: wheezy
