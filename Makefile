@@ -65,7 +65,7 @@ add-qemu: .add-qemu.$(ARCH).$(DIST)
 
 $(DIST).tar: .bootstrap.$(ARCH).$(DIST)
 	CONTAINER=$$(docker create $(IMAGE):$(DIST) /bin/bash) && \
-	docker export -o $(IMAGE).$(DIST).tar $$CONTAINER && \
+	docker export -o $(DIST).tar $$CONTAINER && \
 	docker rm $$CONTAINER
 
 .PHONY: default build update bootstrap add-qemu tags push

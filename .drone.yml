@@ -1,5 +1,5 @@
 matrix:
-  IMAGE:
+  DIST:
     - jessie
     - wheezy
     - trusty
@@ -11,7 +11,7 @@ build:
   commands:
     - docker daemon &
     - apk add --update bash debootstrap make
-    - make $$IMAGE.tar
+    - make $$DIST.tar IMAGE=debootstrap DIST=$$DIST
 
 publish:
   jessie:
@@ -26,10 +26,10 @@ publish:
       - jessie
       - latest
     build_args:
-      - IMAGE_TAR=$$IMAGE.tar
+      - IMAGE=$$DIST.tar
     when:
       matrix:
-        IMAGE: jessie
+        DIST: jessie
 
   wheezy:
     image: armhfplugins/drone-docker
@@ -42,10 +42,10 @@ publish:
       - "7"
       - wheezy
     build_args:
-      - IMAGE_TAR=$$IMAGE.tar
+      - IMAGE=$$DIST.tar
     when:
       matrix:
-        IMAGE: wheezy
+        DIST: wheezy
 
   trusty:
     image: armhfplugins/drone-docker
@@ -59,10 +59,10 @@ publish:
       - trusty
       - latest
     build_args:
-      - IMAGE_TAR=$$IMAGE.tar
+      - IMAGE=$$DIST.tar
     when:
       matrix:
-        IMAGE: trusty
+        DIST: trusty
 
   precise:
     image: armhfplugins/drone-docker
@@ -75,10 +75,10 @@ publish:
       - "12.04"
       - precise
     build_args:
-      - IMAGE_TAR=$$IMAGE.tar
+      - IMAGE=$$DIST.tar
     when:
       matrix:
-        IMAGE: precise
+        DIST: precise
 
 notify:
   slack:

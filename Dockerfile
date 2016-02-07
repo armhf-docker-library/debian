@@ -1,7 +1,7 @@
 FROM scratch
 
-ARG IMAGE_TAR=image.tar
+ARG IMAGE=image.tar
 
-ADD $IMAGE_TAR /
+ADD $IMAGE /
 
 CMD ["/bin/bash"]
