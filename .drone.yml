@@ -4,6 +4,7 @@ matrix:
     - wheezy
     - trusty
     - precise
+    - sid
 
 build:
   image: armhfbuild/docker:1.9.1-dind
@@ -80,6 +81,20 @@ publish:
     when:
       matrix:
         DIST: precise
+
+  sid:
+    image: armhfplugins/drone-docker
+    username: $$DOCKER_USER
+    email: $$DOCKER_EMAIL
+    password: $$DOCKER_PASSWORD
+    repo: armhfbuild/debian
+    tag:
+      - sid
+    build_args:
+      - IMAGE=$$DIST.tar
+    when:
+      matrix:
+        DIST: sid
 
 notify:
   slack:
