@@ -10,8 +10,12 @@ build:
   image: armhfbuild/docker:1.9.1-dind
   privileged: true
   commands:
-    - docker daemon &
     - apk add --update bash debootstrap make
+    # FIXME Replace this hack when there is a real Docker build plugin
+    - docker daemon -s aufs &
+    - sleep 2
+    - docker daemon -s overlay &
+    - sleep 2
     - if [ "$$DIST" = "trusty" -o "$$DIST" = "precise" ]; then DEBOOTSTRAP_ARGS="$$DIST http://ports.ubuntu.com/ubuntu-ports/"; else DEBOOTSTRAP_ARGS="$$DIST"; fi
     - make $$DIST.tar IMAGE=debootstrap DIST=$$DIST DEBOOTSTRAP_ARGS="$DEBOOTSTRAP_ARGS"
 
